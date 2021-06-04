@@ -1,12 +1,11 @@
 import axios from "axios";
 var dialog = require('dialog');
 
-export const getInfo = async () => {
+export const getAlert = async () => {
   try {
     let count = 0;
     const dates = ['04-06-2021', '05-06-2021', '06-06-2021'];
     let interval: number = 60000;
-    const mobile = "8547509839";
 
     setInterval(async () => {
 
@@ -26,7 +25,6 @@ export const getInfo = async () => {
               session.vaccine === 'COVISHIELD') {
 
               interval = 180000;
-              generateOtp(mobile);
 
               dialog.info(`
               Center: ${center.name}
@@ -38,6 +36,9 @@ export const getInfo = async () => {
                 if (exitCode == 0) console.log('User clicked OK');
               });
               return;
+            }
+            else {
+              interval = 60000;
             }
 
           });
@@ -55,8 +56,25 @@ export const getInfo = async () => {
   }
 }
 
-const generateOtp = async (mobile: string) => {
-  const url = `https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP`;
-  const body = { mobile };
-  const response = await axios.post(url, body);
+export const generateOtp = async (mobile: number) => {
+  try {
+
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+      },
+    };
+
+    const url = `https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP`;
+
+    const body = {
+      mobile,
+      secret: "U2FsdGVkX18ulT0cNLJ/+86LhFpH9rzSLJ41mHt3BFOhyu7HU6mHm6S+MfbdYqFFou+z/ZUkP4VhgCWW6gJi5w=="
+    };
+
+    const response = await axios.post(url, body, config);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
