@@ -1,3 +1,3 @@
-import { getAlert } from "./cowin";
+import { getAlert } from "./alert";
 
 getAlert();
