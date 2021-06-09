@@ -18,27 +18,30 @@ export const getAlert = async () => {
       const centers: any[] = response.data.centers;
       centers.forEach((center) => {
 
-        const sessions: any[] = center.sessions;
-        sessions.forEach((session) => {
+        if ((center.fee_type as string).toLowerCase() === 'free') {
 
-          if (session.available_capacity_dose1 as number > 0 &&
-            (session.vaccine as string).toLowerCase() === 'covishield' &&
-            session.min_age_limit as number === 45 &&
-            (center.fee_type as string).toLowerCase() === 'free') {
+          const sessions: any[] = center.sessions;
+          sessions.forEach((session) => {
 
-            dialog.info(`
+            if (session.available_capacity_dose1 as number > 0 &&
+              (session.vaccine as string).toLowerCase() === 'covishield' &&
+              session.min_age_limit as number === 45) {
+
+              dialog.info(`
             Center: ${center.name}
             Pin: ${center.pincode}
             Vaccine: ${session.vaccine}
             Dose 1 available: ${session.available_capacity_dose1}
             age category: ${session.min_age_limit}
             Date: ${session.date}`, 'VACCINE ALERT', function (exitCode: any) {
-              if (exitCode == 0) console.log('User clicked OK');
-            });
-            return;
-          }
+                if (exitCode == 0) console.log('User clicked OK');
+              });
+              return;
+            }
 
-        });
+          });
+        }
+
 
       });
 
