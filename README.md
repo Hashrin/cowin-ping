@@ -1,4 +1,4 @@
-Cowin-Ping is a NodeJS program which sends a desktop alert periodically whenever a vaccine is available and matches a set of criteria.
+Cowin-Ping is a Node.js program which sends a desktop alert periodically whenever a vaccine is available and matches a set of criteria.
 The present criteria is as follows. Feel free to edit them in the code to suit your needs:
 
 1. District ID = 297 (ID of Kannur district). IDs of all districts in India are provided in the districts.json file.
